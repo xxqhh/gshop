@@ -10,13 +10,15 @@
 
 <script>
 export default {
+
   props: {
     title: String
   },
   data() {
     return {};
   },
-  components: {}
+  components: {},
+  
 };
 </script>
 
