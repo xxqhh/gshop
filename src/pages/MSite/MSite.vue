@@ -3,12 +3,15 @@
     <!--首页头部-->
 
     <HeaderTop :title="address.name" class="msite_header">
-      <span class="header_search" slot="left">
+      <router-link class="header_search" slot="left" to="/search">
         <i class="iconfont icon-sousuo"></i>
-      </span>
-      <span class="header_login" slot="right">
-        <span class="header_login_text">登录|注册</span>
-      </span>
+      </router-link>
+      <router-link class="header_login" slot="right" :to="userInfo._id ? '/userinfo': '/login'">
+        <span class="header_login_text" v-if="!userInfo._id">登录|注册</span>
+        <span class="header_login_text" v-else>
+          <i class="iconfont icon-person"></i>
+        </span>
+      </router-link>
     </HeaderTop>
 
     <!--首页导航-->
@@ -57,8 +60,8 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      baseImageUrl: 'https://fuss10.elemecdn.com',
-    }
+      baseImageUrl: "https://fuss10.elemecdn.com"
+    };
   },
   components: {
     HeaderTop,
@@ -67,10 +70,9 @@ export default {
   mounted() {
     this.$store.dispatch("getCategorys");
     this.$store.dispatch("getShops");
-
   },
   computed: {
-    ...mapState(["address", "categorys"]),
+    ...mapState(["address", "categorys","userInfo"]),
     /*
       根据categorys一维数组生成一个2维数组
       小数组中的元素个数最大是8
@@ -98,9 +100,10 @@ export default {
     }
   },
   watch: {
-      categorys (value) { // categorys数组中有数据了, 在异步更新界面之前执行
-        // 使用setTimeout可以实现效果, 但不是太好
-        /*setTimeout(() => {
+    categorys(value) {
+      // categorys数组中有数据了, 在异步更新界面之前执行
+      // 使用setTimeout可以实现效果, 但不是太好
+      /*setTimeout(() => {
           // 创建一个Swiper实例对象, 来实现轮播
           new Swiper('.swiper-container', {
             loop: true, // 可以循环轮播
@@ -111,20 +114,20 @@ export default {
           })
         }, 100)*/
 
-        // 界面更新就立即创建Swiper对象
-        this.$nextTick(() => {// 一旦完成界面更新, 立即调用(此条语句要写在数据更新之后)
-          // 创建一个Swiper实例对象, 来实现轮播
-          new Swiper('.swiper-container', {
-            loop: true, // 可以循环轮播
-            // 如果需要分页器
-            pagination: {
-              el: '.swiper-pagination',
-            },
-          })
-        })
-
-      }
+      // 界面更新就立即创建Swiper对象
+      this.$nextTick(() => {
+        // 一旦完成界面更新, 立即调用(此条语句要写在数据更新之后)
+        // 创建一个Swiper实例对象, 来实现轮播
+        new Swiper(".swiper-container", {
+          loop: true, // 可以循环轮播
+          // 如果需要分页器
+          pagination: {
+            el: ".swiper-pagination"
+          }
+        });
+      });
     }
+  }
 };
 </script>
 
@@ -355,80 +358,7 @@ export default {
                       background-repeat: no-repeat;
                     }
 
-                    &.star-48 {
-                      .star-item {
-                        width: 20px;
-                        height: 20px;
-                        margin-right: 22px;
-                        background-size: 20px 20px;
-
-                        &:last-child {
-                          margin-right: 0;
-                        }
-
-                        &.on {
-                          bg-image('../images/stars/star48_on');
-                        }
-
-                        &.half {
-                          bg-image('../images/stars/star48_half');
-                        }
-
-                        &.off {
-                          bg-image('../images/stars/star48_off');
-                        }
-                      }
-                    }
-
-                    &.star-36 {
-                      .star-item {
-                        width: 15px;
-                        height: 15px;
-                        margin-right: 6px;
-                        background-size: 15px 15px;
-
-                        &:last-child {
-                          margin-right: 0;
-                        }
-
-                        &.on {
-                          bg-image('../images/stars/star36_on');
-                        }
-
-                        &.half {
-                          bg-image('../images/stars/star36_half');
-                        }
-
-                        &.off {
-                          bg-image('../images/stars/star36_off');
-                        }
-                      }
-                    }
-
-                    &.star-24 {
-                      .star-item {
-                        width: 10px;
-                        height: 10px;
-                        margin-right: 3px;
-                        background-size: 10px 10px;
-
-                        &:last-child {
-                          margin-right: 0;
-                        }
-
-                        &.on {
-                          bg-image('../images/stars/star24_on');
-                        }
-
-                        &.half {
-                          bg-image('../images/stars/star24_half');
-                        }
-
-                        &.off {
-                          bg-image('../images/stars/star24_off');
-                        }
-                      }
-                    }
+                   
                   }
 
                   .rating_section {
